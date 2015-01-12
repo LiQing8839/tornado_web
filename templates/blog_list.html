@@ -1,0 +1,52 @@
+<{extends file="main.html"}>
+<{block name="css"}>
+<script>
+function checkaction(t){
+	if (t == 1){
+		document.form.action = "index.php?page=blog&action=edit";
+	}else{
+		document.form.action = "index.php?page=blog&action=del";
+	}
+	form.submit(); 
+}
+</script>
+<{/block}>
+<{block name="content"}>
+<div class="row-fluid">
+	<div class="span12 block">
+	<div class="span1"></div>
+		<div class="span10">
+			<center><h3 class="sub-header"><{$title}></h3></center>
+			<p style="text-align: right;"><{$date}></p>
+			<hr />
+			<p>分类:&nbsp;&nbsp;<a href="#"><{$class}></a></p>
+			<div style="text-indent:2em;word-wrap:break-word;word-break:break-all; word-wrap:break-word;">
+			<{$content = str_replace(" ","&nbsp;",$content)}>
+			<{$content = explode("\n",$content)}>
+			<{foreach $content as $data }>
+				<p><{$data}></p>
+			<{/foreach}>
+			</div>
+			<p style="text-align: right;"><{$email}></p>
+			<center><a href="#" class="icon-thumbs-up"></a><span class="badge badge-info">1</span>&nbsp;&nbsp;
+			<a href="#" class="icon-thumbs-down"></a><span class="badge badge-warning">1</span></center>
+		</div>
+	<div class="span1"></div>
+	</div>
+</div>
+<{if $smarty.session.email == $email}>
+<div class="row-fluid">
+	<div class="span1"></div>
+	<div class="span10">
+		<form action="" method="post" align="right" name="form">
+			<input type="hidden" name="blog_id" value="<{$id}>">
+			<button class="btn" name="edit" onclick="checkaction(1);"><i class="icon-pencil icon-blue"></i> 修改</button>
+			<button class="btn" name="del" onclick="checkaction(0);"><i class="icon-remove icon-red"></i> 删除</button>
+		</form>
+	</div>
+	<div class="span1"></div>
+</div>
+<{/if}>
+<{/block}>
+<{block name="script"}>
+<{/block}>

@@ -1,0 +1,134 @@
+<{extends file="main.html"}>
+<{block name="css"}>
+<{/block}>
+<{block name="content"}>
+<div class="row-fluid">
+	<div class="block-content collapse in">
+		<div class="span12">
+			<form class="form-horizontal" action="" method="get">
+				<fieldset>
+					<legend>命令操作界面</legend>
+					<{if !empty($smarty.get.action) && $smarty.get.action eq "ips"}>
+					<div class="control-group">
+						<label class="control-label" for="host">影院IP地址(可多选): </label>
+						<div class="controls">
+							<select data-placeholder="选择需要同步文件的IP地址..." id="host"
+								class="chzn-select" multiple style="width: 350px;" tabindex="4">
+								<option value=""></option>
+								<optgroup label="通用版IP">
+									<{foreach $tdata as $val}>
+									<option value="<{$val.cinema_ip}>"><{$val.cinema_ip}></option>
+									<{/foreach}>
+								</optgroup>
+								<optgroup label="万达版IP">
+									<{foreach $wdata as $val}>
+									<option value="<{$val.cinema_ip}>"><{$val.cinema_ip}></option>
+									<{/foreach}>
+								</optgroup>
+							</select>
+						</div>
+					</div>
+					<{elseif !empty($smarty.get.action) && $smarty.get.action eq "group"}>
+					<div class="control-group">
+						<label class="control-label" for="group">院线: </label>
+						<div class="controls">
+							<select id="group" class="chzn-select" style="width: 350px;" tabindex="4">
+								<{section name=sn loop=$group}>
+									<option value="<{$group[sn]}>"><{$group[sn]}></option>
+								<{/section}>
+									<option value="wanda">万达版</option>
+							</select>
+						</div>
+					</div>
+					<{else}>
+					<div class="control-group">
+						<label class="control-label" for="host">影院IP: </label>
+						<div class="controls">
+							<select id="host" class="chzn-select" style="width: 350px;" tabindex="4">
+								<option value=""></option>
+								<optgroup label="通用版IP">
+									<{foreach $tdata as $val}>
+									<option value="<{$val.cinema_ip}>"><{$val.cinema_ip}></option>
+									<{/foreach}>
+								</optgroup>
+								<optgroup label="万达版IP">
+									<{foreach $wdata as $val}>
+									<option value="<{$val.cinema_ip}>"><{$val.cinema_ip}></option>
+									<{/foreach}>
+								</optgroup>
+							</select>
+						</div>
+					</div>
+					<{/if}>
+					<div class="control-group">
+						<label class="control-label">命令输入框 </label>
+						<div class="controls">
+							<input type="text" class="span6" id="command">
+						</div>
+					</div>
+					<div class="form-actions">
+						<{if !isset($button)}>
+						<button type="button" class="btn btn-primary" id="show">提交命令</button>
+						<{else}>
+						<button type="button" class="btn btn-primary" id="<{$button}>">提交命令</button>
+						<{/if}>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+<div id="mydiv" class="row-fluid" style="display:None">
+	<pre class="prettyprint linenums pre-scrollable">
+		<p id="echo"></p>
+	</pre>
+</div>
+<{/block}>
+<{block name="script"}>
+<link href="static/css/chosen.min.css" rel="stylesheet" media="screen">
+<script src="static/js/bootstrap-datepicker.js"></script>
+<script src="static/js/chosen.jquery.min.js"></script>
+<script type="text/javascript">
+$(".chzn-select").chosen();
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+    	$("#show").click(function(){
+    		var ips = "";
+    		if (typeof($("#host").val()) == "object"){
+    			var data = $("#host").val();
+    			for(var i=0; i<data.length;i++){
+    				if("" == ips){
+    					ips += data[i];
+    				}else{
+    					ips += ","+data[i];
+    				}
+    			}
+    		}else{
+    			ips = $("#host").val();
+    		}
+    		$.ajax({
+    			type:"GET",
+    			url:"index.php?page=admin",
+    			data:{ip:ips,command:$("#command").val()},
+    			success: function(msg){
+    				$("#mydiv").show();
+    				$("#ip").text("来自"+$("#host").val()+"的信息: ");
+    				$("#echo").html(msg);
+    			}
+    		});
+    	});
+    	$("#groupshow").click(function(){
+    		$.ajax({
+    			type:"GET",
+				url:"index.php?page=admin",
+				data:{group:$("#group").val(),command:$("#command").val()},
+				success: function(msg){
+					$("#mydiv").show();
+					$("#echo").html(msg);
+				}
+    		});
+    	});
+    });
+</script>
+<{/block}>

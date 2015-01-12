@@ -1,0 +1,144 @@
+{% extends "main.html" %}
+{% block css %}
+        <link href="{{ static_url('css/jquery.easy-pie-chart.css') }}" rel="stylesheet" media="screen">
+{% end %}
+{% block content %}
+                    <div class="row-fluid">
+	                <!-- block -->
+	                    <div class="block">
+		                    <div class="navbar navbar-inner block-header">
+			                    <div class="muted pull-left">本机监控</div>
+			                    <div class="pull-right">
+				                    <span class="badge badge-info"><a href="/monitoring/views" style="color:white">更多</a></span>
+
+			                    </div>
+		                    </div>
+		                    <div class="block-content collapse in">
+			                    <div class="span3">
+				                    <div class="chart" data-percent="73">73%</div>
+				                    <div class="chart-bottom-heading">
+					                    <span class="label label-info">CPU使用率</span>
+
+				                    </div>
+			                    </div>
+			                    <div class="span3">
+				                    <div class="chart" data-percent="13">13%</div>
+				                    <div class="chart-bottom-heading">
+					                    <span class="label label-info">CPU iowait</span>
+
+				                    </div>
+			                    </div>
+			                    <div class="span3">
+				                    <div class="chart" data-percent="83">83%</div>
+				                    <div class="chart-bottom-heading">
+					                    <span class="label label-info">内存使用率</span>
+
+				                    </div>
+			                    </div>
+			                    <div class="span3">
+				                    <div class="chart" data-percent="13">13%</div>
+				                    <div class="chart-bottom-heading">
+					                    <span class="label label-info">Swap使用率</span>
+
+				                    </div>
+			                    </div>
+		                    </div>
+	                    </div>
+	                    <!-- /block -->
+                    </div>
+                    <div class="row-fluid">
+	                    <!-- block -->
+	                    <div class="block">
+		                    <div class="navbar navbar-inner block-header">
+			                    <div class="muted pull-left">报告(最近的5个)</div>
+			                    <div class="pull-right">
+				                    <span class="badge badge-info">
+					                    <a href="/monitoring/views" id="r" style="color:white"></a>
+				                    </span>
+
+			                    </div>
+		                    </div>
+		                    <div class="block-content collapse in">
+			                    <div class="span12">
+				                    <table class="table table-condensed">
+					                    <thead>
+						                    <tr>
+							                    <th>编码</th>
+							                    <th>报告信息</th>
+						                    </tr>
+					                    </thead>
+					                    <tbody id="report">
+					                    </tbody>
+				                    </table>
+			                    </div>
+		                    </div>
+	                    </div>
+	                    <!-- /block -->
+                    </div>
+                    <div class="row-fluid">
+	                    <!-- block -->
+	                    <div class="block">
+		                    <div class="navbar navbar-inner block-header">
+			                    <div class="muted pull-left">错误(最近的5个)</div>
+			                    <div class="pull-right">
+				                    <span class="badge badge-important">
+					                    <a href="/monitoring" id="e" style="color:white"></a>
+				                    </span>
+
+			                    </div>
+		                    </div>
+		                    <div class="block-content collapse in">
+			                    <div class="span12">
+				                    <table class="table">
+					                    <thead>
+						                    <tr>
+							                    <th>编码</th>
+							                    <th>错误信息</th>
+						                    </tr>
+					                    </thead>
+					                    <tbody id="error">
+					                    </tbody>
+				                    </table>
+			                    </div>
+		                    </div>
+	                    </div>
+	                    <!-- /block -->
+                    </div>
+                    <div class="row-fluid">
+	                    <!-- block -->
+	                    <div class="block">
+		                    <div class="navbar navbar-inner block-header">
+			                    <div class="muted pull-left">日志(最近的5个)</div>
+			                    <div class="pull-right">
+				                    <span class="badge badge-warning">
+					                    <a href="/monitoring" id="l" style="color:white"></a>
+				                    </span>
+			                    </div>
+		                    </div>
+		                    <div class="block-content collapse in">
+			                    <div class="span12">
+				                    <table class="table">
+					                    <thead>
+						                    <tr>
+							                    <th>编码</th>
+							                    <th>日志信息</th>
+						                    </tr>
+					                    </thead>
+					                    <tbody id="log">
+					                    </tbody>
+				                    </table>
+			                    </div>
+		                    </div>
+	                    </div>
+	                    <!-- /block -->
+                    </div>
+{% end %}
+{% block script %}
+        <script src="{{ static_url('js/jquery.easy-pie-chart.js') }}"></script>
+        <script>
+            $(function() {
+                // Easy pie charts
+                $('.chart').easyPieChart({animate: 1000});
+            });
+        </script>
+{% end %}

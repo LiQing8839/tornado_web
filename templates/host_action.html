@@ -1,0 +1,132 @@
+{% extends "main.html" %}
+{% block css %}
+{% end %}
+{% block content %}
+<div class="row-fluid">
+	<!-- block -->
+	<div class="block">
+		<div class="navbar navbar-inner block-header">
+			<div class="muted pull-left">{{ page }}</div>
+		</div>
+		<div class="block-content collapse in">
+			<div class="span12">
+				<!-- BEGIN FORM-->
+				<form action="" id="form" class="form-horizontal" method="post">
+					<fieldset>
+						<div class="alert alert-error hide">
+							<button class="close" data-dismiss="alert"></button>
+							表单输入有误，请重新检查！！！
+						</div>
+						<div class="alert alert-success hide">
+							<button class="close" data-dismiss="alert"></button>
+							表单输出正确！
+						</div>
+						<div class="control-group">
+							<label class="control-label">
+								影院名称
+								<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input type="text" name="cinema_name" data-required="1"
+									class="span6 m-wrap" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">
+								影院8位编码
+								<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input name="cinema_num" type="text" class="span6 m-wrap" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">
+								影院4位code
+								<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input name="cinema_code" type="text" class="span6 m-wrap" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">
+								VPN_IP地址
+								<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input name="cinema_ip" type="text" class="span6 m-wrap" />
+								<span class="help-block">例如: 10.100.0.1 或 192.168.100.1</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">
+								服务器密码
+								<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input name="cinema_passwd" type="text" class="span6 m-wrap" />
+							</div>
+						</div>
+						{% if action == 'host_ty' %}
+						<div class="control-group">
+							<label class="control-label">
+								院线
+								<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<select class="span6 m-wrap" name="cinema_group">
+									<option value="" selected>选择...</option>
+									{% for i in group %}
+									<option value="{{ i[1] }}">{{ i[1] }}</option>
+									{% end %}
+								</select>
+							</div>							
+						</div>
+						{% end %}
+						<div class="control-group">
+							<label class="control-label">
+								鼎新版本
+								<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input name="version_dx" type="text" class="span6 m-wrap" />
+								<span class="help-block">例如: 1.0.2.9.0000(通用)或 1.1.2.9.0000(万达)</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">
+								服务器系统版本
+								<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input name="version_sys" type="text" class="span6 m-wrap" />
+								<span class="help-block">例如: centos 5.8或centos 6.3和其他系统版本</span>
+							</div>
+						</div>
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary">提交</button>
+							<a href="javascript:history.back(-1);" class="btn btn-grey">
+							<i class="icon-arrow-left"></i>
+							返回
+							</a>
+						</div>
+					</fieldset>
+				</form>
+				<!-- END FORM-->
+			</div>
+		</div>
+	</div>
+	<!-- /block -->
+</div>
+{% end %}
+{% block script %}
+<script src="{{ static_url('js/jquery.uniform.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/jquery.validate.min.js') }}"></script>
+<script src="{{ static_url('js/form-validation.js') }}"></script>
+<script>
+	jQuery(document).ready(function() {   
+	   FormValidation.init();
+	});
+</script>
+{% end %}
