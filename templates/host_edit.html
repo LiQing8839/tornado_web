@@ -12,6 +12,7 @@
 			<div class="span12">
 				<!-- BEGIN FORM-->
 				<form action="" id="form" class="form-horizontal" method="post">
+                    {% raw xsrf_form_html() %}
 					<fieldset>
 						<div class="alert alert-error hide">
 							<button class="close" data-dismiss="alert"></button>

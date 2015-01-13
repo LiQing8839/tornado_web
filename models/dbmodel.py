@@ -71,6 +71,12 @@ class DbModel(object):
             cursor.close()
             conn.close()
             return data,noself
+        elif table == 'blog':
+            cursor.execute("select * from blog_group where blog_class != (select class from blog where id = %s);"%id)
+            noself = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return data,noself
         else:
             cursor.close()
             conn.close()
@@ -103,3 +109,11 @@ class DbModel(object):
         cursor.close()
         conn.close()
         return data
+
+    def DeleteOfid(self,table,id):
+        conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
+        cursor = conn.cursor()
+        num = cursor.execute("delete from %s where id = %s"%(table,id))
+        cursor.close()
+        conn.close()
+        return num

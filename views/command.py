@@ -16,4 +16,4 @@ class CommandACHandler(BaseHandler):
         elif input == 'group':
             self.render("command.html",web_title="运维管理平台",user=self.current_user,page="命令提示符",action="group",group=self.application.data.GetAll('cinema_group'))
         else:
-            self.render("404.html")
+            self.render("404.html",error="没有找到页面")

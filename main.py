@@ -20,7 +20,7 @@ from models.model import *
 from views.index import *
 from views.host import *
 from views.command import *
-
+from views.blog import *
 
 
 define("port",default=8000,help="port of tornado web",type=int)
@@ -43,6 +43,8 @@ class Application(tornado.web.Application):
             (r'/host_wd/(\w+)',HostWDACHandler),
             (r'/command',CommandHandler),
             (r'/command/(\w+)',CommandACHandler),
+            (r'/blog',BlogHandler),
+            (r'/blog/(\w+)',BlogACHandler),
             (r'/login',LoginHandler),
             (r'/logout',LogoutHandler),
         ]

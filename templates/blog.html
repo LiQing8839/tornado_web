@@ -6,7 +6,7 @@
 <div class="row-fluid">
 	<div class="block">
 		<div class="navbar navbar-inner block-header">
-			<div class="muted pull-left">文章列表</div>
+			<div class="muted pull-left">{{ page }}</div>
 		</div>
 		<div class="block-content collapse in">
 			<div class="span12">
@@ -34,9 +34,9 @@
 						{% for i in tbody %}
 						<tr>
 							{% if len(i['title']) < 16 %}
-							<td><a href="/blog?list={{ i['id'] }}">{{ i['title'] }}</a></td>
+							<td><a href="/blog/list?id={{ i['id'] }}">{{ i['title'] }}</a></td>
 							{% else %}
-							<td><a href="/blog?list={{ i['id'] }}">{{ i['title'][:15] }} ...</a></td>
+							<td><a href="/blog/list?id={{ i['id'] }}">{{ i['title'][:15] }} ...</a></td>
 							{% end %}
 							{% if len(i['content']) <= 30 %}
 							<td>{{ i['content'] }}</td>
@@ -44,7 +44,8 @@
 							<td>{{ i['content'][:30] }} ...</td>
 							{% end %}
 							<td>{{ i['class'] }}</td>
-							<td>{{ i['date'] }}</td>
+							<td>{{ i['mtime'] }}</td>
+                            <td>{{ i['ctime'] }}</td>
 							<td>{{ i['email'] }}</td>
 						</tr>
 						{% end %}

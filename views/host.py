@@ -3,8 +3,12 @@
 
 import tornado.web
 import MySQLdb
+import sys
 from index import BaseHandler
+from tornado.options import options
 
+reload(sys)
+sys.setdefaultencoding("utf8")
 class HostTYHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
@@ -35,7 +39,8 @@ class HostTYACHandler(BaseHandler):
             cinema_group = self.get_argument('cinema_group')
             version_dx = self.get_argument('version_dx')
             version_sys = self.get_argument('version_sys')
-            cursor.execute("insert into cinema_ty values(null,'%s','%s','%s','%s','%s','%s','%s','%s');"%(cinema_ip,cinema_name,cinema_code,cinema_num,cinema_passwd,cinema_group,version_dx,version_sys))
+            cursor.execute("insert into cinema_ty(id,cinema_name,cinema_num,cinema_code,cinema_ip,cinema_passwd,cinema_group,version_dx,version_sys) values(NULL,'%s','%s','%s','%s','%s','%s','%s','%s');"%(cinema_name,cinema_num,cinema_code,cinema_ip,cinema_passwd,cinema_group,version_dx,version_sys))
+            conn.commit()
             cursor.close()
             conn.close()
             self.redirect("/host_ty")
@@ -50,6 +55,7 @@ class HostTYACHandler(BaseHandler):
             version_dx = self.get_argument('version_dx')
             version_sys = self.get_argument('version_sys')
             cursor.execute("update cinema_ty set cinema_name='%s',cinema_num='%s',cinema_code='%s',cinema_ip='%s',cinema_passwd='%s',cinema_group='%s',version_dx='%s',version_sys='%s' where id = %s;"%(cinema_name,cinema_num,cinema_code,cinema_ip,cinema_passwd,cinema_group,version_dx,version_sys,id))
+            conn.commit()
             cursor.close()
             conn.close()
             self.redirect("/host_ty")
@@ -71,7 +77,7 @@ class HostWDACHandler(BaseHandler):
             id = self.get_argument('id')
             self.render("host_edit.html",web_title="运维管理平台",user=self.current_user,page="修改万达主机",data=self.application.data.GetOne('cinema_wd',id),group='')
         else:
-            self.render("404.html")
+            self.render("404.html",error="没有找到页面")
 
     def post(self,input):
         conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
@@ -84,7 +90,8 @@ class HostWDACHandler(BaseHandler):
             cinema_passwd = self.get_argument('cinema_passwd')
             version_dx = self.get_argument('version_dx')
             version_sys = self.get_argument('version_sys')
-            cursor.execute("insert into cinema_ty values(null,'%s','%s','%s','%s','%s','%s','%s');"%(cinema_ip,cinema_name,cinema_code,cinema_num,cinema_passwd,version_dx,version_sys))
+            cursor.execute("insert into cinema_wd(id,cinema_name,cinema_num,cinema_code,cinema_ip,cinema_passwd,version_dx,version_sys) values(NULL,'%s','%s','%s','%s','%s','%s','%s');"%(cinema_name,cinema_num,cinema_code,cinema_ip,cinema_passwd,version_dx,version_sys))
+            conn.commit()
             cursor.close()
             conn.close()
             self.redirect("/host_ty")
@@ -97,9 +104,10 @@ class HostWDACHandler(BaseHandler):
             cinema_passwd = self.get_argument('cinema_passwd')
             version_dx = self.get_argument('version_dx')
             version_sys = self.get_argument('version_sys')
-            cursor.execute("update cinema_ty set cinema_name='%s',cinema_num='%s',cinema_code='%s',cinema_ip='%s',cinema_passwd='%s',version_dx='%s',version_sys='%s' where id = %s;"%(cinema_name,cinema_num,cinema_code,cinema_ip,cinema_passwd,version_dx,version_sys,id))
+            cursor.execute("update cinema_wd set cinema_name='%s',cinema_num='%s',cinema_code='%s',cinema_ip='%s',cinema_passwd='%s',version_dx='%s',version_sys='%s' where id = %s;"%(cinema_name,cinema_num,cinema_code,cinema_ip,cinema_passwd,version_dx,version_sys,id))
+            conn.commit()
             cursor.close()
             conn.close()
             self.redirect("/host_ty")
         else:
-            self.render("404.html")
+            self.render("404.html",error="没有找到页面")

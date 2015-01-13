@@ -40,4 +40,4 @@ class DBHandler(BaseHandler):
         else:
             d = {'report':'reports', 'error':'errors' ,'log':'logs'}
             data = json.dumps(self.application.data.GetTable(d[input]))
-        raise tornado.gen.Reurn(data)
+        raise tornado.gen.Return(data)
