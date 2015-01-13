@@ -15,9 +15,12 @@ import tornado.websocket
 from tornado.options import define,options
 
 from models.dbmodel import DbModel
+from models.model import *
+
 from views.index import *
 from views.host import *
-from models.model import *
+from views.command import *
+
 
 
 define("port",default=8000,help="port of tornado web",type=int)
@@ -38,6 +41,8 @@ class Application(tornado.web.Application):
             (r'/host_ty/(\w+)',HostTYACHandler),
             (r'/host_wd',HostWDHandler),
             (r'/host_wd/(\w+)',HostWDACHandler),
+            (r'/command',CommandHandler),
+            (r'/command/(\w+)',CommandACHandler),
             (r'/login',LoginHandler),
             (r'/logout',LogoutHandler),
         ]

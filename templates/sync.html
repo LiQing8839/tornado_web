@@ -1,12 +1,12 @@
-<{extends file="main.html"}>
-<{block name="css"}>
-<link href="static/css/DT_bootstrap.css" rel="stylesheet" media="screen">
-<{/block}>
-<{block name="content"}>
+{% extends "main.html" %}
+{% block css %}
+<link href="{{ static_url('css/DT_bootstrap.css') }}" rel="stylesheet" media="screen">
+{% end %}
+{% block content %}
 <div class="row-fuild">
 	<div class="block">
 		<div class="navbar navbar-inner block-header">
-			<div class="muted pull-left"><{$page}></div>
+			<div class="muted pull-left">{{ page }}</div>
 		</div>
 		<div class="block-content collapse in">
 		<form class="form-horizontal" action="" method="get">
@@ -16,14 +16,14 @@
 	    		<select data-placeholder="选择需要同步文件的IP地址..." id="sel" class="chzn-select" multiple style="width:350px;" tabindex="4">
           			<option value=""></option>
           			<optgroup label="通用版IP">
-          				<{foreach $tdata as $val}>
-          					<option value="<{$val.cinema_ip}>"><{$val.cinema_ip}></option>
-          				<{/foreach}>
+          				{% for i in tip %}
+          					<option value="{{ i['cinema_ip'] }}">{{ i['cinema_ip'] }}</option>
+          				{% end %}
           			</optgroup>
           			<optgroup label="万达版IP">
-          				<{foreach $wdata as $val}>
-          					<option value="<{$val.cinema_ip}>"><{$val.cinema_ip}></option>
-          				<{/foreach}>
+          				{% for i in tip %}
+          					<option value="{{ i['cinema_ip'] }}">{{ i['cinema_ip'] }}</option>
+          				{% end %}
           			</optgroup>
 	    		</select>
 	    	</div>
@@ -73,13 +73,13 @@
 		<p id="echo"></p>
 	</pre>
 </div>
-<{/block}>
-<{block name="script"}>
-<link href="static/css/chosen.min.css" rel="stylesheet" media="screen">
-<script src="static/js/bootstrap-datepicker.js"></script>
-<script src="static/js/chosen.jquery.min.js"></script>
-<script src="static/js/jquery.dataTables.min.js"></script>
-<script src="static/js/DT_bootstrap.js"></script>
+{% end %}
+{% block script %}
+<link href="{{ static_url('css/chosen.min.css') }}" rel="stylesheet" media="screen">
+<script src="{{ static_url('js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ static_url('js/chosen.jquery.min.js') }}"></script>
+<script src="{{ static_url('js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ static_url('js/DT_bootstrap.js') }}"></script>
 <script type="text/javascript">
     $(".chzn-select").chosen();
 </script>
@@ -138,4 +138,4 @@ $(document).ready(function(){
 	});
 });
 </script>
-<{/block}>
+{% end %}

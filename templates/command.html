@@ -16,14 +16,14 @@
 								class="chzn-select" multiple style="width: 350px;" tabindex="4">
 								<option value=""></option>
 								<optgroup label="通用版IP">
-									<{foreach $tdata as $val}>
-									<option value="<{$val.cinema_ip}>"><{$val.cinema_ip}></option>
-									<{/foreach}>
+									{% for i in ty %}
+									<option value="{{ i['cinema_ip'] }}">{{ i['cinema_ip'] }}</option>
+									{% end %}
 								</optgroup>
 								<optgroup label="万达版IP">
-									<{foreach $wdata as $val}>
-									<option value="<{$val.cinema_ip}>"><{$val.cinema_ip}></option>
-									<{/foreach}>
+									{% for i in wd %}
+									<option value="{{ i['cinema_ip'] }}">{{ i['cinema_ip'] }}</option>
+									{% end %}
 								</optgroup>
 							</select>
 						</div>
@@ -33,9 +33,9 @@
 						<label class="control-label" for="group">院线: </label>
 						<div class="controls">
 							<select id="group" class="chzn-select" style="width: 350px;" tabindex="4">
-								<{section name=sn loop=$group}>
-									<option value="<{$group[sn]}>"><{$group[sn]}></option>
-								<{/section}>
+								{% for i in group %}
+									<option value="{{ i[1] }}">{{ i[1] }}</option>
+								{% end %}
 									<option value="wanda">万达版</option>
 							</select>
 						</div>
@@ -47,14 +47,14 @@
 							<select id="host" class="chzn-select" style="width: 350px;" tabindex="4">
 								<option value=""></option>
 								<optgroup label="通用版IP">
-									<{foreach $tdata as $val}>
-									<option value="<{$val.cinema_ip}>"><{$val.cinema_ip}></option>
-									<{/foreach}>
+									{% for i in ty %}
+									<option value="{{ i['cinema_ip'] }}">{{ i['cinema_ip'] }}</option>
+									{% end %}
 								</optgroup>
 								<optgroup label="万达版IP">
-									<{foreach $wdata as $val}>
-									<option value="<{$val.cinema_ip}>"><{$val.cinema_ip}></option>
-									<{/foreach}>
+									{% for i in wd %}
+									<option value="{{ i['cinema_ip'] }}">{{ i['cinema_ip'] }}</option>
+									{% end %}
 								</optgroup>
 							</select>
 						</div>
@@ -67,11 +67,11 @@
 						</div>
 					</div>
 					<div class="form-actions">
-						<{if !isset($button)}>
+                        {% if action != "group" %}
 						<button type="button" class="btn btn-primary" id="show">提交命令</button>
-						<{else}>
-						<button type="button" class="btn btn-primary" id="<{$button}>">提交命令</button>
-						<{/if}>
+						{% else %}
+						<button type="button" class="btn btn-primary" id="groupshow">提交命令</button>
+						{% end %}
 					</div>
 				</fieldset>
 			</form>
@@ -109,11 +109,10 @@ $(".chzn-select").chosen();
     		}
     		$.ajax({
     			type:"GET",
-    			url:"index.php?page=admin",
+    			url:"/admin/ips",
     			data:{ip:ips,command:$("#command").val()},
     			success: function(msg){
     				$("#mydiv").show();
-    				$("#ip").text("来自"+$("#host").val()+"的信息: ");
     				$("#echo").html(msg);
     			}
     		});
@@ -121,7 +120,7 @@ $(".chzn-select").chosen();
     	$("#groupshow").click(function(){
     		$.ajax({
     			type:"GET",
-				url:"index.php?page=admin",
+				url:"/admin/group",
 				data:{group:$("#group").val(),command:$("#command").val()},
 				success: function(msg){
 					$("#mydiv").show();
