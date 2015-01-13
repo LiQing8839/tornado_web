@@ -1,14 +1,14 @@
-<{extends file="main.html"}>
-<{block name="css"}>
-<{/block}>
-<{block name="content"}>
+{% extends "main.html" %}
+{% block css %}
+{% end %}
+{% block content %}
 <div class="row-fluid">
 	<div class="block-content collapse in">
 		<div class="span12">
 			<form class="form-horizontal" action="" method="get">
 				<fieldset>
 					<legend>命令操作界面</legend>
-					<{if !empty($smarty.get.action) && $smarty.get.action eq "ips"}>
+                    {% if action == 'ips' %}
 					<div class="control-group">
 						<label class="control-label" for="host">影院IP地址(可多选): </label>
 						<div class="controls">
@@ -28,7 +28,7 @@
 							</select>
 						</div>
 					</div>
-					<{elseif !empty($smarty.get.action) && $smarty.get.action eq "group"}>
+                    {% elif action == 'group' %}
 					<div class="control-group">
 						<label class="control-label" for="group">院线: </label>
 						<div class="controls">
@@ -40,7 +40,7 @@
 							</select>
 						</div>
 					</div>
-					<{else}>
+                    {% else %}
 					<div class="control-group">
 						<label class="control-label" for="host">影院IP: </label>
 						<div class="controls">
@@ -59,7 +59,7 @@
 							</select>
 						</div>
 					</div>
-					<{/if}>
+                    {% end %}
 					<div class="control-group">
 						<label class="control-label">命令输入框 </label>
 						<div class="controls">
@@ -83,11 +83,11 @@
 		<p id="echo"></p>
 	</pre>
 </div>
-<{/block}>
-<{block name="script"}>
-<link href="static/css/chosen.min.css" rel="stylesheet" media="screen">
-<script src="static/js/bootstrap-datepicker.js"></script>
-<script src="static/js/chosen.jquery.min.js"></script>
+{% end %}
+{% block script %}
+<link href="{{ static_url('css/chosen.min.css') }}" rel="stylesheet" media="screen">
+<script src="{{ static_url('js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ static_url('js/chosen.jquery.min.js') }}"></script>
 <script type="text/javascript">
 $(".chzn-select").chosen();
 </script>
@@ -131,4 +131,4 @@ $(".chzn-select").chosen();
     	});
     });
 </script>
-<{/block}>
+{% end %}

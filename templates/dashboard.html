@@ -1,6 +1,34 @@
 {% extends "main.html" %}
 {% block css %}
         <link href="{{ static_url('css/jquery.easy-pie-chart.css') }}" rel="stylesheet" media="screen">
+        <script type="application/javascript">
+            var loadTable = function(hid){
+		            $.ajax({
+			            type: "GET",
+			            url: "/admin/"+hid,
+			            success: function(msg){
+				            var txt = "";
+				            var data = eval('(' + msg + ')');
+				            for ( var i = 0; i < data.length; i++) {
+					            var item = data[i];
+					            txt += "<tr><td>" + item.id + "</td><td>" + item.message
+							    + "</td></tr>"
+				            }
+				            $("#"+hid).html(txt);
+			            }
+		            });
+	            }
+            function digui2(){
+                var num = ['r', 'e', 'l'];
+                var load = ['report', 'error', 'log'];
+                for (var i=0; i<load.length; i++){
+                        loadInt(num[i]);
+    		            loadTable(load[i]);
+    	        }
+                window.setTimeout("digui2()",30000);
+            }
+
+        </script>
 {% end %}
 {% block content %}
                     <div class="row-fluid">
@@ -140,5 +168,6 @@
                 // Easy pie charts
                 $('.chart').easyPieChart({animate: 1000});
             });
+            digui2();
         </script>
 {% end %}

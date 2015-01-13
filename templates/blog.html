@@ -1,8 +1,8 @@
-<{extends file="main.html"}>
-<{block name="css"}>
-<link href="static/css/DT_bootstrap.css" rel="stylesheet" media="screen">
-<{/block}>
-<{block name="content"}>
+{% extends "main.html" %}
+{% block css %}
+<link href="{{ static_url('css/DT_bootstrap.css') }}" rel="stylesheet" media="screen">
+{% end %}
+{% block content %}
 <div class="row-fluid">
 	<div class="block">
 		<div class="navbar navbar-inner block-header">
@@ -12,7 +12,7 @@
 			<div class="span12">
 				<div class="table-toolbar">
 					<div class="btn-group">
-						<a href="index.php?page=blog&action=add">
+						<a href="/blog/add">
 							<button class="btn btn-success">
 								添加文章
 								<i class="icon-plus icon-white"></i>
@@ -25,37 +25,37 @@
 					class="table table-striped table-bordered" id="example">
 					<thead>
 						<tr>
-							<{foreach $thead as $data}>
-							<th style="text-align: center;"><{$data}></th>
-							<{/foreach}>
+							{% for i in thead %}
+							<th style="text-align: center;">{{ i }}</th>
+							{% end %}
 						</tr>
 					</thead>
 					<tbody>
-						<{section name=sn loop=$blog}>
+						{% for i in tbody %}
 						<tr>
-							<{if mb_strlen($blog[sn].title,"utf-8") < 10}>
-							<td><a href="index.php?page=blog&list=<{$blog[sn].id}>"><{$blog[sn].title}></a></td>
-							<{else}>
-							<td><a href="index.php?page=blog&list=<{$blog[sn].id}>"><{iconv_substr($blog[sn].title,0,25,"utf-8")}> ...</a></td>
-							<{/if}> 
-							<{if mb_strlen($blog[sn].content,"utf-8") < 20}>
-							<td><{$blog[sn].content}></td>
-							<{else}>
-							<td><{iconv_substr($blog[sn].content,0,25,"utf-8")}> ...</td>
-							<{/if}>
-							<td><{$blog[sn].class}></td>
-							<td><{$blog[sn].date}></td>
-							<td><{$blog[sn].email}></td>
+							{% if len(i['title']) < 16 %}
+							<td><a href="/blog?list={{ i['id'] }}">{{ i['title'] }}</a></td>
+							{% else %}
+							<td><a href="/blog?list={{ i['id'] }}">{{ i['title'][:15] }} ...</a></td>
+							{% end %}
+							{% if len(i['content']) <= 30 %}
+							<td>{{ i['content'] }}</td>
+							{% else %}
+							<td>{{ i['content'][:30] }} ...</td>
+							{% end %}
+							<td>{{ i['class'] }}</td>
+							<td>{{ i['date'] }}</td>
+							<td>{{ i['email'] }}</td>
 						</tr>
-						<{/section}>
+						{% end %}
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
 </div>
-<{/block}>
-<{block name="script"}>
-<script src="static/js/jquery.dataTables.min.js"></script>
-<script src="static/js/DT_bootstrap.js"></script>
-<{/block}>
+{% end %}
+{% block script %}
+<script src="{{ static_url('js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ static_url('js/DT_bootstrap.js') }}"></script>
+{% end %}

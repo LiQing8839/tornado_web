@@ -20,33 +20,12 @@
         	        });
                 }
 
-                var loadTable = function(hid){
-		            $.ajax({
-			            type: "GET",
-			            url: "/admin/"+hid,
-			            success: function(msg){
-				            var txt = "";
-				            var data = eval('(' + msg + ')');
-				            for ( var i = 0; i < data.length; i++) {
-					            var item = data[i];
-					            txt += "<tr><td>" + item.id + "</td><td>" + item.name
-							    + "</td></tr>"
-				            }
-				            $("#"+hid).html(txt);
-			            }
-		            });
-	            }
-
                 function digui(){
-                    var array = ['cinema_ty', 'cinema_wd', 'blog', 'user', 'reports', 'errors', 'logs', 'r', 'e', 'l'];
+                    var array = ['cinema_ty', 'cinema_wd', 'blog', 'user', 'reports', 'errors', 'logs'];
 		            for (var i=0; i<array.length; i++){
 			            loadInt(array[i]);
 		            }
-    	            var load = ['report', 'error', 'log'];
-    	            for (var i=0; i<load.length; i++){
-    		            loadTable(load[i]);
-    	            }
-    	            window.setTimeout("digui()",3000);
+    	            window.setTimeout("digui()",30000);
                 }
         </script>
     </head>
@@ -152,9 +131,6 @@
                                         <a tabindex="-1" href="/blog">文章</a>
                                     </li>
                                     <li>
-                                        <a tabindex="-1" href="/logs">用户日志</a>
-                                    </li>
-                                    <li>
                                         <a tabindex="-1" href="/file">文件</a>
                                     </li>
                                     <li class="divider"></li>
@@ -236,9 +212,6 @@
                         </li>
                         <li>
                             <a href="#"><span class="badge badge-info pull-right" id="user"></span> 用户</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="badge badge-info pull-right" id="message">1</span> 用户消息</a>
                         </li>
                         <li>
                             <a href="#"><span class="badge badge-info pull-right" id="reports"></span> 报告</a>
