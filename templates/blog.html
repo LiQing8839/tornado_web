@@ -33,15 +33,15 @@
 					<tbody>
 						{% for i in tbody %}
 						<tr>
-							{% if len(i['title']) < 16 %}
+							{% if len(i['title']) < 15 %}
 							<td><a href="/blog/list?id={{ i['id'] }}">{{ i['title'] }}</a></td>
 							{% else %}
-							<td><a href="/blog/list?id={{ i['id'] }}">{{ i['title'][:15] }} ...</a></td>
+							<td><a href="/blog/list?id={{ i['id'] }}">{{ i['title'][:15] }}</a></td>
 							{% end %}
-							{% if len(i['content']) <= 30 %}
-							<td>{{ i['content'] }}</td>
+							{% if len(i['content']) < 30 %}
+							<td>{% raw i['content'] %}</td>
 							{% else %}
-							<td>{{ i['content'][:30] }} ...</td>
+							<td>{% raw i['content'][:30] %}</td>
 							{% end %}
 							<td>{{ i['class'] }}</td>
 							<td>{{ i['mtime'] }}</td>

@@ -17,12 +17,12 @@ function checkaction(t){
 	<div class="span1"></div>
 		<div class="span10">
 			<center><h3 class="sub-header">{{ data['title'] }}</h3></center>
-			<p style="text-align: right;">创建时间: {{ data['mtime'] }} 修改时间: {{ data['ctime'] }}</p>
+			<p style="text-align: right;">最后修订时间: {{ data['ctime'] }}</p>
 			<hr />
 			<p>分类:&nbsp;&nbsp;<a href="#">{{ data['class'] }}</a></p>
-			<div style="text-indent:2em;word-wrap:break-word;word-break:break-all; word-wrap:break-word;">
+			<div style="word-wrap:break-word;word-break:break-all; word-wrap:break-word;">
 			{% for i in data['content'] %}
-				<p>{{ i }}</p>
+				<p>{% raw i %}</p>
 			{% end %}
 			</div>
 			<p style="text-align: right;">{{ data['email'] }}</p>

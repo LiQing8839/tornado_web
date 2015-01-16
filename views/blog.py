@@ -27,7 +27,7 @@ class BlogACHandler(BaseHandler):
         elif input == 'list':
             id = self.get_argument('id')
             data,group = self.application.data.GetOne('blog',id)
-            tmp = data['content'].replace(" ","&nbsp;")
+            tmp = data['content']
             data['content'] = tmp.split("\n")
             self.render("blog_list.html",web_title="运维管理平台",user=self.current_user,page="文章",data=data)
         elif input == 'del':
