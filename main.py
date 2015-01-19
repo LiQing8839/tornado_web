@@ -21,6 +21,7 @@ from views.index import *
 from views.host import *
 from views.command import *
 from views.blog import *
+from views.file import *
 
 
 define("port",default=8000,help="port of tornado web",type=int)
@@ -45,6 +46,8 @@ class Application(tornado.web.Application):
             (r'/command/(\w+)',CommandACHandler),
             (r'/blog',BlogHandler),
             (r'/blog/(\w+)',BlogACHandler),
+            (r'/upload',UploadHandler),
+            (r'/sync',SyncHandler),
             (r'/login',LoginHandler),
             (r'/logout',LogoutHandler),
         ]

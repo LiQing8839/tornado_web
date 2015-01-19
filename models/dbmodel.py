@@ -33,87 +33,49 @@ class DbModel(object):
         conn.close()
         return self.count
 
-    def GetTable(self,table):
+    def GetDAll(self,sql):
         conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
         cursor = conn.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("select * from %s order by id desc limit 5;"%table)
+        cursor.execute(sql)
         data = cursor.fetchall()
         cursor.close()
         conn.close()
         return data
 
-    def GetHost(self,table):
-        conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
-        cursor = conn.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("select * from %s"%table)
-        data = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return data
-
-    def GetAll(self,table):
+    def GetAll(self,sql):
         conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
         cursor = conn.cursor()
-        cursor.execute("select * from %s"%table)
+        cursor.execute(sql)
         data = cursor.fetchall()
         cursor.close()
         conn.close()
         return data
 
-    def GetOne(self,table,id):
+    def GetOne(self,sql):
         conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
         cursor = conn.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("select * from %s where id = '%s'"%(table,id))
+        cursor.execute(sql)
         data =  cursor.fetchall()[0]
-        if table == 'cinema_ty':
-            cursor.execute("select * from cinema_group where cinema_group != (select cinema_group from cinema_ty where id = %s);"%id)
-            noself = cursor.fetchall()
-            cursor.close()
-            conn.close()
-            return data,noself
-        elif table == 'blog':
-            cursor.execute("select * from blog_group where blog_class != (select class from blog where id = %s);"%id)
-            noself = cursor.fetchall()
-            cursor.close()
-            conn.close()
-            return data,noself
-        else:
-            cursor.close()
-            conn.close()
-            return data
-
-    def GetIP(self,table):
-        conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
-        cursor = conn.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("select cinema_ip from %s;"%table)
-        data = cursor.fetchall()
         cursor.close()
         conn.close()
         return data
 
-    """
-    def History_command(self,email,ips,command,data):
-        conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
-        cursor = conn.cursor()
-        num = cursor.execute("insert into command_log values(null,'%s','%s','%s','%s');"%(email,ips,command,data))
-        cursor.close()
-        conn.close()
-        return int(num)
-    """
-
-    def GetGroupIP(self,group):
+    def Getnoself(self,sql):
         conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
         cursor = conn.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("select cinema_ip from cinema_ty where cinema_group = '%s'"%group)
-        data = cursor.fetchall()
+        cursor.execute(sql)
+        noself = cursor.fetchall()
         cursor.close()
         conn.close()
-        return data
+        return noself
 
-    def DeleteOfid(self,table,id):
+    def Commit(self,sql):
         conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
         cursor = conn.cursor()
-        num = cursor.execute("delete from %s where id = %s"%(table,id))
+        num = cursor.execute(sql)
+        conn.commit()
         cursor.close()
         conn.close()
         return num
+
+

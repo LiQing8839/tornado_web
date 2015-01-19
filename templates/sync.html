@@ -21,7 +21,7 @@
           				{% end %}
           			</optgroup>
           			<optgroup label="万达版IP">
-          				{% for i in tip %}
+          				{% for i in wip %}
           					<option value="{{ i['cinema_ip'] }}">{{ i['cinema_ip'] }}</option>
           				{% end %}
           			</optgroup>
@@ -45,17 +45,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<{foreach $filelist as $file=>$size}>
-				<{if !in_array($file,$dir)}>
+				{% for file,size in data.items() %}
 				<tr>
 					<td style="text-align: center;">
 						<input type="checkbox" name="checkfile[]" value="<{$listdir}><{$file}>">
 					</td>
-					<td style="text-align: center;"><{$file}></td>
-					<td style="text-align: center;"><{$size}></td>
+					<td style="text-align: center;">{{ file }}</td>
+					<td style="text-align: center;">{{ size }}K</td>
 				</tr>
-				<{/if}>
-				<{/foreach}> 
+				{% end %}
 			</tbody>
 		</table>
 		<div class="form-actions">

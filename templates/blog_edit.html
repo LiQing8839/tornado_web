@@ -21,7 +21,7 @@
 						<label class="control-label" for="select01">分类</label>
 						<div class="controls">
 							<select id="select01" class="chzn-select" name="class">
-								<option value="{{ class }}">{{ data['class'] }}</option>
+								<option value="{{ data['class'] }}">{{ data['class'] }}</option>
 								{% for i in group %}
 									<option value="{{ i['blog_class'] }}">{{ i['blog_class'] }}</option>
 								{% end %}
@@ -36,7 +36,7 @@
                         </div>
                     </div>
 					<div class="form-actions">
-						<button type="submit" class="btn btn-primary" name="submit">{{ button }}</button>
+						<button type="submit" class="btn btn-primary" name="submit"><i class="icon-pencil icon-blue"></i> 保存修改</button>
 						<a href="javascript:history.back(-1);" class="btn btn-grey">
 							<i class="icon-arrow-left"></i>
 							返回
@@ -48,8 +48,8 @@
 		</div>
 	</div>
 </div>
-<{/block}>
-<{block name="script"}>
+{% end %}
+{% block script %}
 <link href="{{ static_url('css/chosen.min.css') }}" rel="stylesheet" media="screen">
 <link href="{{ static_url('css/bootstrap-wysihtml5.css') }}" rel="stylesheet" media="screen">
 <script src="{{ static_url('js/bootstrap-datepicker.js') }}"></script>
@@ -69,4 +69,4 @@
     });
 
 </script>
-<{/block}>
+{% end %}

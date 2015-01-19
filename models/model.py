@@ -25,9 +25,11 @@ class DBHandler(BaseHandler):
             group = self.get_argument('group')
             command = self.get_argument('command')
             if group == 'wanda':
-                ips = ','.join([i['cinema_ip'] for i in self.application.data.GetIP("cinema_wd")])
+                sql = "select cinema_ip from cinema_wd"
+                ips = ','.join([i['cinema_ip'] for i in self.application.data.GetDAll(sql)])
             else:
-                ips = ','.join([i['cinema_ip'] for i in self.application.data.GetGroupIP(group)])
+                sql = "select cinema_ip from cinema_ty where cinema_group = '%s'"%group
+                ips = ','.join([i['cinema_ip'] for i in self.application.data.GetDAll(sql)])
             data = os.popen('python models/command.py "%s" "%s"'%(ips,command)).read()
 
         elif input not in ['report', 'error', 'log']:
@@ -39,5 +41,6 @@ class DBHandler(BaseHandler):
 
         else:
             d = {'report':'reports', 'error':'errors' ,'log':'logs'}
-            data = json.dumps(self.application.data.GetTable(d[input]))
+            sql = "select * from %s order by id desc limit 5"%d[input]
+            data = json.dumps(self.application.data.GetDAll(sql))
         raise tornado.gen.Return(data)
