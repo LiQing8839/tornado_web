@@ -45,8 +45,8 @@ class SFTP(object):
         files = files.split(',')
         try:
             for i in files:
-                remote = os.path.join(remote_dir,i.split('/')[-1])
-                #remote = remote_dir+'/'+i.split('/')[-1]
+                remote = os.path.join(remote_dir,i.split('\\')[-1])
+                #remote = remote_dir+'/'+i.split('\\')[-1]
                 sftp.put(i,remote)
                 sftp.chmod(remote,0644)
             sftp.close()

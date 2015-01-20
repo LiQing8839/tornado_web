@@ -44,3 +44,25 @@ class DBHandler(BaseHandler):
             sql = "select * from %s order by id desc limit 5"%d[input]
             data = json.dumps(self.application.data.GetDAll(sql))
         raise tornado.gen.Return(data)
+
+class FileHandler(BaseHandler):
+    @tornado.web.authenticated
+    @tornado.gen.coroutine
+    def get(self,input):
+        data = yield self.GetData(input)
+        self.write(data)
+
+    @tornado.gen.coroutine
+    def GetData(self,input):
+        if input == 'sync':
+            array = (self.get_argument('ip'),self.get_argument('file'),self.get_argument('remote'))
+            data = os.popen('python models/sftp.py "%s" "%s" "%s"'%(array)).read()
+        elif input == 'del':
+            for i in self.get_argument('delete').split(','):
+                if os.path.exists(i):
+                    os.remove(i)
+                else:
+                    data = "没有找到这个文件%s,请查看"%i
+            else:
+                data = "文件全部删除干净"
+        raise tornado.gen.Return(data)

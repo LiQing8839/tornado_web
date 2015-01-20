@@ -1,4 +1,5 @@
 {% extends "main.html" %}
+{% autoescape None %}
 {% block css %}
 <link href="{{ static_url('css/DT_bootstrap.css') }}" rel="stylesheet" media="screen">
 {% end %}
@@ -45,12 +46,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for file,size in data.items() %}
+				{% for filename,size in data.items() %}
 				<tr>
 					<td style="text-align: center;">
-						<input type="checkbox" name="checkfile[]" value="<{$listdir}><{$file}>">
+						<input type="checkbox" name="checkfile[]" value="{{ path}}\{{ filename }}">
 					</td>
-					<td style="text-align: center;">{{ file }}</td>
+					<td style="text-align: center;">{{ filename }}</td>
 					<td style="text-align: center;">{{ size }}K</td>
 				</tr>
 				{% end %}
@@ -104,8 +105,8 @@ $(document).ready(function(){
 			}else{
 				$.ajax({
 					type: "GET",
-					url: "index.php?page=admin",
-					data: {file:files,ip:ips,remote:path},
+					url: "/file/sync",
+					data: {file: files.join(","), ip: ips.join(","), remote: path},
 					success: function(msg){
 						$("#echo").html(msg);
 						$("#mydiv").show();
@@ -124,7 +125,7 @@ $(document).ready(function(){
 		}else{
 			$.ajax({
 				type: "GET",
-				url: "index.php?page=admin",
+				url: "/file/del",
 				data: "delete="+files,
 				success: function(msg){
 					alert(msg);

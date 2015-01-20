@@ -48,6 +48,7 @@ class Application(tornado.web.Application):
             (r'/blog/(\w+)',BlogACHandler),
             (r'/upload',UploadHandler),
             (r'/sync',SyncHandler),
+            (r'/file/(\w+)',FileHandler),
             (r'/login',LoginHandler),
             (r'/logout',LogoutHandler),
         ]
