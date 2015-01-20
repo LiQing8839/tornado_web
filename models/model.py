@@ -5,16 +5,22 @@ import tornado.web
 import tornado.gen
 import json
 import os
+
 from views.index import BaseHandler
+from tornado.concurrent import run_on_executor
+from concurrent.futures import ThreadPoolExecutor
 
 class DBHandler(BaseHandler):
+    executor = ThreadPoolExecutor(15)
     @tornado.web.authenticated
+    @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self,input):
         data = yield self.GetData(input)
         self.write(data)
+        self.finish()
 
-    @tornado.gen.coroutine
+    @run_on_executor
     def GetData(self,input):
         if input == 'ips':
             ips = self.get_argument('ip')
@@ -46,13 +52,15 @@ class DBHandler(BaseHandler):
         raise tornado.gen.Return(data)
 
 class FileHandler(BaseHandler):
+    executor = ThreadPoolExecutor(15)
     @tornado.web.authenticated
+    @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self,input):
         data = yield self.GetData(input)
         self.write(data)
 
-    @tornado.gen.coroutine
+    @run_on_executor
     def GetData(self,input):
         if input == 'sync':
             array = (self.get_argument('ip'),self.get_argument('file'),self.get_argument('remote'))
