@@ -41,5 +41,5 @@ class SyncHandler(BaseHandler):
         file_list = os.listdir(file_path)
         d = {}
         for i in file_list:
-            d[i] = round(os.path.getsize(os.path.join(file_path,i))/1024,2)
+            d[i] = round(os.path.getsize(os.path.join(file_path,i))/1024.0,2)
         self.render("sync.html", web_title="运维管理平台", user=self.current_user, page="同步文件", action="", tip=self.application.data.GetDAll(sql1), wip=self.application.data.GetDAll(sql2), path= file_path,data=d)

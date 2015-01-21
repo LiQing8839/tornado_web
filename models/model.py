@@ -26,6 +26,9 @@ class DBHandler(BaseHandler):
             ips = self.get_argument('ip')
             command = self.get_argument('command')
             data = os.popen('python models/command.py "%s" "%s"'%(ips,command)).read()
+            array = (self.current_user,ips,command,data)
+            sql = "insert into command_log values(null,'%s','%s','%s','%s')"%array
+            self.application.data.Commit(sql)
 
         elif input == 'group':
             group = self.get_argument('group')
@@ -37,6 +40,10 @@ class DBHandler(BaseHandler):
                 sql = "select cinema_ip from cinema_ty where cinema_group = '%s'"%group
                 ips = ','.join([i['cinema_ip'] for i in self.application.data.GetDAll(sql)])
             data = os.popen('python models/command.py "%s" "%s"'%(ips,command)).read()
+            array = (self.current_user,group,command,data)
+            sql = "insert into command_log values(null,'%s','%s','%s','%s')"%array
+            self.application.data.Commit(sql)
+
 
         elif input not in ['report', 'error', 'log']:
             d = {'r':'reports', 'e':'errors' ,'l':'logs'}
@@ -49,7 +56,7 @@ class DBHandler(BaseHandler):
             d = {'report':'reports', 'error':'errors' ,'log':'logs'}
             sql = "select * from %s order by id desc limit 5"%d[input]
             data = json.dumps(self.application.data.GetDAll(sql))
-        raise tornado.gen.Return(data)
+        return data
 
 class FileHandler(BaseHandler):
     executor = ThreadPoolExecutor(15)
@@ -73,4 +80,4 @@ class FileHandler(BaseHandler):
                     data = "没有找到这个文件%s,请查看"%i
             else:
                 data = "文件全部删除干净"
-        raise tornado.gen.Return(data)
+        return data

@@ -34,19 +34,19 @@
 						{% for i in tbody %}
 						<tr>
 							{% if len(i['title']) < 15 %}
-							<td><a href="/blog/list?id={{ i['id'] }}">{{ i['title'] }}</a></td>
+							<td><a href="/blog/list?id={{ i['id'] }}">{{ i['blog_title'] }}</a></td>
 							{% else %}
-							<td><a href="/blog/list?id={{ i['id'] }}">{{ i['title'][:15] }}</a></td>
+							<td><a href="/blog/list?id={{ i['id'] }}">{{ i['blog_title'][:15] }}</a></td>
 							{% end %}
-							{% if len(i['content']) < 30 %}
-							<td>{% raw i['content'] %}</td>
+							{% if len(i['blog_content']) < 30 %}
+							<td>{% raw i['blog_content'] %}</td>
 							{% else %}
-							<td>{% raw i['content'][:30] %}</td>
+							<td>{% raw i['blog_content'][:30] %}</td>
 							{% end %}
-							<td>{{ i['class'] }}</td>
-							<td>{{ i['mtime'] }}</td>
-                            <td>{{ i['ctime'] }}</td>
-							<td>{{ i['email'] }}</td>
+							<td>{{ i['blog_class'] }}</td>
+							<td>{{ i['blog_mtime'] }}</td>
+                            <td>{{ i['blog_ctime'] }}</td>
+							<td>{{ i['user_email'] }}</td>
 						</tr>
 						{% end %}
 					</tbody>

@@ -14,8 +14,8 @@ class DbModel(object):
     def GetPasswd(self,user):
         conn = MySQLdb.connect(host=options.dbhost,port=options.dbport,user=options.dbuser,passwd=options.dbpasswd,db=options.db,charset=options.charset)
         cursor = conn.cursor(MySQLdb.cursors.DictCursor)
-        if cursor.execute("select password from user where email = '%s';"%user):
-            passwd = cursor.fetchall()[0]['password']
+        if cursor.execute("select user_passwd from user where user_email = '%s';"%user):
+            passwd = cursor.fetchall()[0]['user_passwd']
             cursor.close()
             conn.close()
             return passwd

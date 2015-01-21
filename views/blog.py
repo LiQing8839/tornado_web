@@ -44,11 +44,11 @@ class BlogACHandler(BaseHandler):
     def post(self,input):
         if input == 'add':
             values = (self.get_argument('title'), self.get_argument('content'), self.get_argument('class'), self.current_user)
-            self.application.data.Commit("insert into blog(id,title,content,class,mtime,ctime,email) values(null,'%s','%s','%s',now(),now(),'%s');"%(values))
+            self.application.data.Commit("insert into blog(id,blog_title,blog_content,blog_class,blog_mtime,blog_ctime,user_email) values(null,'%s','%s','%s',now(),now(),'%s');"%(values))
             self.redirect("/blog")
         if input == 'edit':
             values = (self.get_argument('title'), self.get_argument('content'), self.get_argument('class'), self.get_argument('rid'))
-            self.application.data.Commit("update blog set title='%s',content='%s',class='%s',ctime=now() where id = %s"%(values))
+            self.application.data.Commit("update blog set blog_title='%s',blog_content='%s',blog_class='%s',blog_ctime=now() where id = %s"%(values))
             self.redirect("/blog/list?id=%s"%self.get_argument('rid'))
         else:
             self.render("404.html",error="没有找到页面")

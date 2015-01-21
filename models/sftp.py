@@ -9,7 +9,7 @@ import sys
 import os.path
 
 def MySQL(host,files,remote):
-    conn = MySQLdb.connect(host="localhost",user="root",passwd="123qwe",db="yingyuan",charset="utf8")
+    conn = MySQLdb.connect(host="localhost",user="root",passwd="123qwe",db="yunwei",charset="utf8")
     cursor = conn.cursor(MySQLdb.cursors.DictCursor)
     if cursor.execute("select cinema_name,cinema_ip,cinema_passwd from cinema_ty where cinema_ip = '%s' union all select cinema_name,cinema_ip,cinema_passwd from cinema_wd where cinema_ip = '%s'"%(host,host)):
         out = cursor.fetchall()[0]
@@ -45,8 +45,8 @@ class SFTP(object):
         files = files.split(',')
         try:
             for i in files:
-                remote = os.path.join(remote_dir,i.split('\\')[-1])
-                #remote = remote_dir+'/'+i.split('\\')[-1]
+                #remote = os.path.join(remote_dir,i.split('\\')[-1])
+                remote = remote_dir+'/'+i.split('\\')[-1]
                 sftp.put(i,remote)
                 sftp.chmod(remote,0644)
             sftp.close()

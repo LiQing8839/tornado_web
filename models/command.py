@@ -8,7 +8,7 @@ import Queue
 import sys
 
 def MySQL(host,command):
-    conn = MySQLdb.connect(host="localhost",port=3306,user="root",passwd="123qwe",db="yingyuan",charset="utf8")
+    conn = MySQLdb.connect(host="localhost",port=3306,user="root",passwd="123qwe",db="yunwei",charset="utf8")
     cursor = conn.cursor(MySQLdb.cursors.DictCursor)
     if cursor.execute("select cinema_name,cinema_ip,cinema_passwd from cinema_ty where cinema_ip = '%s' union all select cinema_name,cinema_ip,cinema_passwd from cinema_wd where cinema_ip = '%s'"%(host,host)):
         out = cursor.fetchall()[0]
