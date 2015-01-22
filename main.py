@@ -58,7 +58,9 @@ class Application(tornado.web.Application):
             cookie_secret = base64.b64encode(uuid4().bytes+uuid4().bytes),
             xsrf_cookies = True,
             login_url = "/login",
-            debug = True,
+            gzip = True,
+            compress_response = True,
+            autoreload = True,
         )
         self.data = DbModel()
         tornado.web.Application.__init__(self,handlers, **settings)

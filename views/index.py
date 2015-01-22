@@ -5,6 +5,8 @@ import tornado.web
 import md5
 
 class BaseHandler(tornado.web.RequestHandler):
+    def initialize(self):
+        self.title = "运维管理平台"
     def get_current_user(self):
         return self.get_secure_cookie("username")
 
@@ -33,10 +35,10 @@ class LogoutHandler(BaseHandler):
 class IndexHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        self.render("index.html",web_title="运维管理平台",user=self.current_user)
+        self.render("index.html",web_title=self.title,user=self.current_user)
 
 class DashboardHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        self.render("dashboard.html",web_title="运维管理平台",user=self.current_user,page="")
+        self.render("dashboard.html",web_title=self.title,user=self.current_user,page="")
 

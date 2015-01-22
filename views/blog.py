@@ -12,25 +12,25 @@ class BlogHandler(BaseHandler):
     def get(self):
         thead = ["标题","内容","分类","创建时间","修改时间","作者"]
         sql = "select * from blog"
-        self.render("blog.html",web_title="运维管理平台",user=self.current_user,thead=thead,tbody=self.application.data.GetDAll(sql),page="文章列表")
+        self.render("blog.html",web_title=self.title,user=self.current_user,thead=thead,tbody=self.application.data.GetDAll(sql),page="文章列表")
 
 class BlogACHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self,input):
         if input == 'add':
             sql = "select * from blog_group"
-            self.render("blog_action.html",web_title="运维管理平台",user=self.current_user,page="添加文章",group=self.application.data.GetAll(sql))
+            self.render("blog_action.html",web_title=self.title,user=self.current_user,page="添加文章",group=self.application.data.GetAll(sql))
         elif input == 'edit':
             id = self.get_argument('blog_id')
             data = self.application.data.GetOne("select * from blog where id = %s"%id)
             group = self.application.data.Getnoself("select * from blog_group where blog_class != (select blog_class from blog where id = %s);"%id)
-            self.render("blog_edit.html",web_title="运维管理平台",user=self.current_user,page="修改文章",data=data,group=group)
+            self.render("blog_edit.html",web_title=self.title,user=self.current_user,page="修改文章",data=data,group=group)
         elif input == 'list':
             id = self.get_argument('id')
             data = self.application.data.GetOne("select * from blog where id = %s"%id)
             tmp = data['content']
             data['content'] = tmp.split("\n")
-            self.render("blog_list.html",web_title="运维管理平台",user=self.current_user,page="文章",data=data)
+            self.render("blog_list.html",web_title=self.title,user=self.current_user,page="文章",data=data)
         elif input == 'del':
             id = self.get_argument('blog_id')
             if self.application.data.Commit("delete from blog where id = %s"%id):
